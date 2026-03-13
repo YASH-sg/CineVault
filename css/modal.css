@@ -1,0 +1,228 @@
+/* =============================================
+   CINEVAULT — MODAL STYLESHEET
+   modal.css
+============================================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal-box {
+  background: #1a1a24;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 780px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s cubic-bezier(0.4,0,0.2,1);
+  scrollbar-width: thin;
+  scrollbar-color: #333 transparent;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.modal-close {
+  position: sticky;
+  top: 1rem;
+  float: right;
+  margin: 1rem 1rem 0 0;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+}
+
+.modal-close:hover {
+  background: rgba(255,255,255,0.18);
+}
+
+/* Modal inner layout */
+.modal-hero {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2rem;
+  padding: 2rem 2rem 0;
+  clear: both;
+}
+
+.modal-poster {
+  width: 200px;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  flex-shrink: 0;
+}
+
+.modal-meta { padding-top: 0.5rem; }
+
+.modal-genre {
+  display: inline-block;
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent, #e8c840);
+  border: 1px solid var(--accent, #e8c840);
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 0.8rem;
+}
+
+.modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.4rem;
+  line-height: 1;
+  letter-spacing: 1px;
+  margin-bottom: 0.4rem;
+}
+
+.modal-year {
+  font-size: 0.82rem;
+  color: var(--muted, #7a7a8c);
+  margin-bottom: 1rem;
+}
+
+.modal-cast-label,
+.modal-desc-label {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted, #7a7a8c);
+  margin-bottom: 0.35rem;
+}
+
+.modal-cast {
+  font-size: 0.85rem;
+  color: #c0bfba;
+  margin-bottom: 1rem;
+}
+
+.modal-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.modal-avg {
+  font-size: 1.5rem;
+  font-family: 'Bebas Neue', sans-serif;
+  color: var(--accent, #e8c840);
+  letter-spacing: 1px;
+}
+
+.modal-vote-count {
+  font-size: 0.75rem;
+  color: var(--muted, #7a7a8c);
+}
+
+.modal-body {
+  padding: 1.5rem 2rem 2rem;
+}
+
+.modal-desc-label { margin-top: 1rem; }
+
+.modal-description {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #b0afaa;
+  margin-bottom: 1.5rem;
+}
+
+.modal-user-rating {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-user-rating h4 {
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted, #7a7a8c);
+  margin-bottom: 0.75rem;
+}
+
+.modal-star-rating {
+  display: flex;
+  gap: 6px;
+  direction: rtl;
+}
+
+.modal-star-rating input { display: none; }
+
+.modal-star-rating label {
+  font-size: 1.8rem;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.15s, transform 0.15s;
+}
+
+.modal-star-rating label:hover,
+.modal-star-rating label:hover ~ label,
+.modal-star-rating input:checked ~ label {
+  color: var(--accent, #e8c840);
+}
+
+.modal-star-rating label:hover {
+  transform: scale(1.25);
+}
+
+.modal-trailer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--accent2, #ff5c38);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.6rem;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  text-decoration: none;
+}
+
+.modal-trailer-btn:hover {
+  background: #ff3d1a;
+  transform: scale(1.03);
+}
+
+/* Responsive modal */
+@media (max-width: 600px) {
+  .modal-hero {
+    grid-template-columns: 1fr;
+    padding: 1.5rem 1.5rem 0;
+  }
+  .modal-poster { width: 140px; }
+  .modal-body { padding: 1rem 1.5rem 1.5rem; }
+  .modal-title { font-size: 1.8rem; }
+}
