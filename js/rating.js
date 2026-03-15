@@ -1,114 +1,91 @@
 // =============================================
-//  CINEVAULT — RATING SYSTEM
+//  CINEVAULT — RATING SYSTEM  (Day 3–4)
 //  js/rating.js
 // =============================================
 
-// Store user ratings in memory (key: movie id, value: 1-5)
-const userRatings = {};
-
-/**
- * Get the computed average rating for a movie,
- * factoring in the user's personal rating if set.
- */
 function getAverageRating(movie) {
-  const userRating = userRatings[movie.id];
+  const userRating = Storage.getRating(movie.id);
   if (!userRating) return movie.baseRating;
-
-  const totalScore = movie.baseRating * movie.votes + userRating;
-  const totalVotes = movie.votes + 1;
-  return totalScore / totalVotes;
+  return (movie.baseRating * movie.votes + userRating) / (movie.votes + 1);
 }
 
-/**
- * Get total vote count (including user vote if set).
- */
 function getVoteCount(movie) {
-  return userRatings[movie.id] ? movie.votes + 1 : movie.votes;
+  return Storage.getRating(movie.id) ? movie.votes + 1 : movie.votes;
 }
 
-/**
- * Save a user rating and trigger a UI refresh of that card.
- */
 function submitRating(movieId, stars) {
-  userRatings[movieId] = stars;
-
-  // Update the card's displayed average
+  Storage.saveRating(movieId, stars);
   const movie = MOVIES.find(m => m.id === movieId);
   if (!movie) return;
 
-  const avg = getAverageRating(movie);
+  const avg   = getAverageRating(movie);
   const votes = getVoteCount(movie);
 
-  // Update card avg display
-  const cardAvg = document.querySelector(`[data-movie-id="${movieId}"] .avg-score`);
+  // Update card
+  const cardAvg   = document.querySelector(`[data-movie-id="${movieId}"] .avg-score`);
   const cardVotes = document.querySelector(`[data-movie-id="${movieId}"] .avg-label`);
-  if (cardAvg) cardAvg.textContent = avg.toFixed(1) + "★";
+  if (cardAvg)   cardAvg.textContent   = avg.toFixed(1) + '★';
   if (cardVotes) cardVotes.textContent = `${votes.toLocaleString()} votes`;
 
-  // Update modal avg display if open
-  const modalAvg = document.getElementById("modalAvgScore");
-  const modalVotes = document.getElementById("modalVoteCount");
-  if (modalAvg && modalAvg.dataset.movieId == movieId) {
-    modalAvg.textContent = avg.toFixed(1);
+  // Update open modal
+  const modalAvg   = document.getElementById('modalAvgScore');
+  const modalVotes = document.getElementById('modalVoteCount');
+  if (modalAvg && String(modalAvg.dataset.movieId) === String(movieId)) {
+    modalAvg.textContent   = avg.toFixed(1);
     if (modalVotes) modalVotes.textContent = `${votes.toLocaleString()} votes`;
   }
+
+  showToast(`You rated <strong>${movie.title}</strong> ${stars}★`, 'success');
 }
 
-/**
- * Build a star-rating widget (for movie cards).
- * Uses CSS rtl trick for hover highlight.
- */
 function buildCardStars(movie) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "star-rating";
-  wrapper.setAttribute("data-id", movie.id);
+  const wrapper = document.createElement('div');
+  wrapper.className = 'star-rating';
+
+  const saved = Storage.getRating(movie.id);
 
   for (let i = 5; i >= 1; i--) {
-    const id = `star-card-${movie.id}-${i}`;
-    const input = document.createElement("input");
-    input.type = "radio";
-    input.name = `rating-card-${movie.id}`;
-    input.id = id;
+    const id    = `star-card-${movie.id}-${i}`;
+    const input = document.createElement('input');
+    input.type  = 'radio';
+    input.name  = `rating-card-${movie.id}`;
+    input.id    = id;
     input.value = i;
-    if (userRatings[movie.id] === i) input.checked = true;
+    if (saved === i) input.checked = true;
 
-    const label = document.createElement("label");
+    const label   = document.createElement('label');
     label.htmlFor = id;
-    label.textContent = "★";
-    label.title = `${i} star${i > 1 ? "s" : ""}`;
+    label.textContent = '★';
+    label.title   = `${i} star${i > 1 ? 's' : ''}`;
 
-    input.addEventListener("change", () => submitRating(movie.id, i));
-
+    input.addEventListener('change', () => submitRating(movie.id, i));
     wrapper.appendChild(input);
     wrapper.appendChild(label);
   }
   return wrapper;
 }
 
-/**
- * Build a larger star-rating widget (for the modal).
- */
 function buildModalStars(movie) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "modal-star-rating";
+  const wrapper = document.createElement('div');
+  wrapper.className = 'modal-star-rating';
+
+  const saved = Storage.getRating(movie.id);
 
   for (let i = 5; i >= 1; i--) {
-    const id = `star-modal-${movie.id}-${i}`;
-    const input = document.createElement("input");
-    input.type = "radio";
-    input.name = `rating-modal-${movie.id}`;
-    input.id = id;
+    const id    = `star-modal-${movie.id}-${i}`;
+    const input = document.createElement('input');
+    input.type  = 'radio';
+    input.name  = `rating-modal-${movie.id}`;
+    input.id    = id;
     input.value = i;
-    if (userRatings[movie.id] === i) input.checked = true;
+    if (saved === i) input.checked = true;
 
-    const label = document.createElement("label");
+    const label   = document.createElement('label');
     label.htmlFor = id;
-    label.textContent = "★";
-    label.title = `${i} star${i > 1 ? "s" : ""}`;
+    label.textContent = '★';
 
-    input.addEventListener("change", () => {
+    input.addEventListener('change', () => {
       submitRating(movie.id, i);
-      // Sync card stars
       const cardInput = document.getElementById(`star-card-${movie.id}-${i}`);
       if (cardInput) cardInput.checked = true;
     });

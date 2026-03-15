@@ -1,17 +1,13 @@
 // =============================================
-//  CINEVAULT — SEARCH & FILTER
+//  CINEVAULT — SEARCH & FILTER  (Day 3–4)
 //  js/filter.js
 // =============================================
 
-/**
- * Returns the filtered subset of MOVIES based on
- * current search input + dropdowns.
- */
 function getFilteredMovies() {
-  const query   = document.getElementById("searchInput").value.trim().toLowerCase();
-  const genre   = document.getElementById("genreFilter").value;
-  const year    = document.getElementById("yearFilter").value;
-  const minRate = parseFloat(document.getElementById("ratingFilter").value) || 0;
+  const query   = document.getElementById('searchInput').value.trim().toLowerCase();
+  const genre   = document.getElementById('genreFilter').value;
+  const year    = document.getElementById('yearFilter').value;
+  const minRate = parseFloat(document.getElementById('ratingFilter').value) || 0;
 
   return MOVIES.filter(movie => {
     const matchTitle = !query || movie.title.toLowerCase().includes(query);
@@ -22,33 +18,26 @@ function getFilteredMovies() {
   });
 }
 
-/**
- * Update the results count label.
- */
 function updateResultsLabel(count) {
-  const label = document.getElementById("resultsCount");
-  if (count === MOVIES.length) {
-    label.textContent = `Showing all ${count} movies`;
-  } else {
-    label.textContent = `${count} movie${count !== 1 ? "s" : ""} found`;
-  }
+  const label = document.getElementById('resultsCount');
+  if (!label) return;
+  label.textContent = count === MOVIES.length
+    ? `Showing all ${count} movies`
+    : `${count} movie${count !== 1 ? 's' : ''} found`;
 }
 
-/**
- * Reset all filter controls and re-render.
- */
 function resetFilters() {
-  document.getElementById("searchInput").value = "";
-  document.getElementById("genreFilter").value = "";
-  document.getElementById("yearFilter").value = "";
-  document.getElementById("ratingFilter").value = "";
+  document.getElementById('searchInput').value  = '';
+  document.getElementById('genreFilter').value  = '';
+  document.getElementById('yearFilter').value   = '';
+  document.getElementById('ratingFilter').value = '';
+  currentPage = 1;
   renderMovies();
 }
 
-// Attach event listeners once DOM is ready
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("searchInput").addEventListener("input", renderMovies);
-  document.getElementById("genreFilter").addEventListener("change", renderMovies);
-  document.getElementById("yearFilter").addEventListener("change", renderMovies);
-  document.getElementById("ratingFilter").addEventListener("change", renderMovies);
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('searchInput').addEventListener('input',  () => { currentPage = 1; renderMovies(); });
+  document.getElementById('genreFilter').addEventListener('change', () => { currentPage = 1; renderMovies(); });
+  document.getElementById('yearFilter').addEventListener('change',  () => { currentPage = 1; renderMovies(); });
+  document.getElementById('ratingFilter').addEventListener('change',() => { currentPage = 1; renderMovies(); });
 });

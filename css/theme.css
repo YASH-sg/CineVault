@@ -1,0 +1,61 @@
+/* =============================================
+   CINEVAULT — THEME SYSTEM
+   css/theme.css
+============================================= */
+
+[data-theme="light"] {
+  --bg:      #f4f3ef;
+  --bg2:     #eae9e4;
+  --card-bg: #ffffff;
+  --text:    #1a1a22;
+  --muted:   #888899;
+  --border:  rgba(0,0,0,0.08);
+  --accent:  #c9a800;
+}
+
+[data-theme="light"] .site-header {
+  background: rgba(244,243,239,0.88);
+}
+
+[data-theme="light"] .loading-screen { background: var(--bg); }
+
+[data-theme="light"] .modal-box,
+[data-theme="light"] .watchlist-panel {
+  background: #fff;
+  color: var(--text);
+}
+
+[data-theme="light"] .modal-description,
+[data-theme="light"] .modal-cast { color: #555566; }
+
+[data-theme="light"] .star-rating label,
+[data-theme="light"] .modal-star-rating label { color: #ccc; }
+
+[data-theme="light"] .skeleton-poster,
+[data-theme="light"] .skeleton-line {
+  background: linear-gradient(90deg, #e8e7e2 25%, #d8d7d2 50%, #e8e7e2 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+[data-theme="light"] .hero-overlay {
+  background: linear-gradient(
+    to right,rgba(244,243,239,0.92) 0%,rgba(244,243,239,0.55) 55%,rgba(244,243,239,0.1) 100%
+  ), linear-gradient(to top,rgba(244,243,239,0.95) 0%,transparent 40%);
+}
+
+[data-theme="light"] .hero-title,
+[data-theme="light"] .hero-desc { color: var(--text); }
+
+[data-theme="light"] .btn-secondary {
+  background: rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.15);
+  color: var(--text);
+}
+
+[data-theme="light"] .card-overlay {
+  background: linear-gradient(to top,rgba(255,255,255,0.95) 0%,transparent 55%);
+}
+
+[data-theme="light"] .overlay-desc { color: #333; }
+[data-theme="light"] .mini-title { color: var(--text); }

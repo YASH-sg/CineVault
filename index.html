@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,33 +8,74 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/modal.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/toast.css" />
 </head>
 <body>
+
+  <!-- LOADING SCREEN -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loader-inner">
+      <div class="loader-logo">🎬</div>
+      <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
+      <p class="loader-text" id="loaderText">Loading CineVault…</p>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
 
   <!-- HEADER -->
   <header class="site-header">
     <div class="header-inner">
       <div class="logo">🎬 CineVault</div>
       <nav class="nav-links">
-        <a href="#">Home</a>
-        <a href="#">Top Rated</a>
-        <a href="#">Genres</a>
+        <a href="#movieGrid">Movies</a>
+        <a href="#trendingSection">Trending</a>
+        <a href="#topRatedSection">Top Rated</a>
+        <a href="#" id="navWatchlistBtn">
+          Watchlist <span class="watchlist-badge" id="navWatchlistCount">0</span>
+        </a>
       </nav>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-text">
-      <p class="hero-eyebrow">Discover · Rate · Explore</p>
-      <h1>Your Personal<br><span>Movie Universe</span></h1>
-      <p class="hero-sub">Browse hundreds of films, give your honest rating, and find your next favourite watch.</p>
+  <!-- ANIMATED HERO -->
+  <section class="hero" id="heroSection">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content" id="heroContent">
+      <p class="hero-eyebrow">⭐ Featured Tonight</p>
+      <h1 class="hero-title" id="heroTitle">—</h1>
+      <div class="hero-tags" id="heroTags"></div>
+      <p class="hero-desc" id="heroDesc"></p>
+      <div class="hero-actions">
+        <button class="btn-primary" id="heroTrailerBtn">▶ Watch Trailer</button>
+        <button class="btn-secondary" id="heroWatchlistBtn">＋ Watchlist</button>
+      </div>
     </div>
-    <div class="hero-glow"></div>
+    <div class="hero-dots" id="heroDots"></div>
+  </section>
+
+  <!-- TRENDING -->
+  <section class="section-block" id="trendingSection">
+    <div class="section-header">
+      <h2 class="section-title">🔥 Trending Now</h2>
+    </div>
+    <div class="horizontal-scroll" id="trendingScroll"></div>
+  </section>
+
+  <!-- TOP RATED -->
+  <section class="section-block" id="topRatedSection">
+    <div class="section-header">
+      <h2 class="section-title">🏆 Top Rated</h2>
+    </div>
+    <div class="horizontal-scroll" id="topRatedScroll"></div>
   </section>
 
   <!-- SEARCH & FILTER -->
-  <section class="controls-bar">
+  <section class="controls-bar" id="allMoviesAnchor">
     <div class="controls-inner">
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
@@ -71,13 +112,18 @@
     </div>
   </section>
 
-  <!-- RESULTS COUNT -->
   <div class="results-label">
     <span id="resultsCount">Showing all movies</span>
   </div>
 
+  <!-- SKELETON GRID -->
+  <div class="movie-grid" id="skeletonGrid"></div>
+
   <!-- MOVIE GRID -->
-  <main class="movie-grid" id="movieGrid"></main>
+  <main class="movie-grid hidden" id="movieGrid"></main>
+
+  <!-- PAGINATION -->
+  <div class="pagination" id="pagination"></div>
 
   <!-- EMPTY STATE -->
   <div class="empty-state hidden" id="emptyState">
@@ -93,14 +139,45 @@
     </div>
   </div>
 
+  <!-- TRAILER MODAL -->
+  <div class="trailer-overlay hidden" id="trailerOverlay">
+    <div class="trailer-box">
+      <button class="trailer-close" id="trailerClose">✕</button>
+      <div class="trailer-frame-wrap">
+        <iframe id="trailerFrame" src="" frameborder="0" allowfullscreen
+          allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- WATCHLIST SIDE PANEL -->
+  <div class="watchlist-backdrop hidden" id="watchlistBackdrop"></div>
+  <aside class="watchlist-panel hidden" id="watchlistPanel">
+    <div class="watchlist-header">
+      <h2>My Watchlist</h2>
+      <button class="watchlist-close" id="watchlistClose">✕</button>
+    </div>
+    <div class="watchlist-list" id="watchlistList">
+      <p class="watchlist-empty">No movies saved yet.</p>
+    </div>
+  </aside>
+
   <footer class="site-footer">
-    <p>© 2025 CineVault · Built for internship project · All movie data is fictional</p>
+    <p>© 2025 CineVault · Internship Project · Data powered by TMDB</p>
   </footer>
 
+  <!-- JS FILES — order matters -->
   <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/toast.js"></script>
   <script src="js/rating.js"></script>
+  <script src="js/watchlist.js"></script>
+  <script src="js/trailer.js"></script>
   <script src="js/filter.js"></script>
   <script src="js/modal.js"></script>
+  <script src="js/hero.js"></script>
+  <script src="js/pagination.js"></script>
+  <script src="js/theme.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

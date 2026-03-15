@@ -1,5 +1,5 @@
 // =============================================
-//  CINEVAULT — MOVIE DATA
+//  CINEVAULT — MOVIE DATA  (Day 3–4)
 //  js/data.js
 // =============================================
 
@@ -10,11 +10,13 @@ const MOVIES = [
     genre: "Sci-Fi",
     year: 2023,
     poster: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=600&fit=crop",
+    backdrop: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=1400&h=700&fit=crop",
     description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival. Stunning visuals meet profound storytelling in this epic journey across dimensions.",
     cast: "Matthew McConaughey, Anne Hathaway, Jessica Chastain",
-    trailer: "https://www.youtube.com/watch?v=zSWdZVtXT7E",
+    trailerKey: "zSWdZVtXT7E",
     baseRating: 4.6,
-    votes: 12840
+    votes: 12840,
+    trending: true
   },
   {
     id: 2,
@@ -22,11 +24,13 @@ const MOVIES = [
     genre: "Drama",
     year: 2022,
     poster: "https://images.unsplash.com/photo-1534430480872-3498386e7856?w=400&h=600&fit=crop",
+    backdrop: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1400&h=700&fit=crop",
     description: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son. A masterpiece of cinema that defined a generation.",
     cast: "Marlon Brando, Al Pacino, James Caan",
-    trailer: "https://www.youtube.com/watch?v=sY1S34973zA",
+    trailerKey: "sY1S34973zA",
     baseRating: 4.9,
-    votes: 23100
+    votes: 23100,
+    trending: false
   },
   {
     id: 3,
@@ -34,11 +38,13 @@ const MOVIES = [
     genre: "Action",
     year: 2021,
     poster: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=600&fit=crop",
-    description: "In a post-apocalyptic wasteland, Max teams with a rebellious warrior Furiosa to flee a cult leader and his armada of vehicles in a lengthy road battle. Relentless, visceral filmmaking.",
+    backdrop: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1400&h=700&fit=crop",
+    description: "In a post-apocalyptic wasteland, Max teams with a rebellious warrior Furiosa to flee a cult leader in a lengthy road battle. Relentless, visceral filmmaking.",
     cast: "Tom Hardy, Charlize Theron, Nicholas Hoult",
-    trailer: "https://www.youtube.com/watch?v=hEJnMQG9ev8",
+    trailerKey: "hEJnMQG9ev8",
     baseRating: 4.5,
-    votes: 9800
+    votes: 9800,
+    trending: true
   },
   {
     id: 4,
@@ -46,11 +52,13 @@ const MOVIES = [
     genre: "Action",
     year: 2019,
     poster: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=600&fit=crop",
-    description: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
+    backdrop: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=1400&h=700&fit=crop",
+    description: "When the menace known as the Joker wreaks havoc on Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
     cast: "Christian Bale, Heath Ledger, Aaron Eckhart",
-    trailer: "https://www.youtube.com/watch?v=EXeTwQWrcwY",
+    trailerKey: "EXeTwQWrcwY",
     baseRating: 4.8,
-    votes: 31200
+    votes: 31200,
+    trending: true
   },
   {
     id: 5,
@@ -58,11 +66,13 @@ const MOVIES = [
     genre: "Thriller",
     year: 2022,
     poster: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&h=600&fit=crop",
+    backdrop: "https://images.unsplash.com/photo-1519638399535-1b036603ac77?w=1400&h=700&fit=crop",
     description: "Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan. Bong Joon-ho's genre-bending masterpiece.",
     cast: "Song Kang-ho, Lee Sun-kyun, Cho Yeo-jeong",
-    trailer: "https://www.youtube.com/watch?v=5xH0HfJHsaY",
+    trailerKey: "5xH0HfJHsaY",
     baseRating: 4.7,
-    votes: 17430
+    votes: 17430,
+    trending: false
   },
   {
     id: 6,
@@ -70,11 +80,13 @@ const MOVIES = [
     genre: "Animation",
     year: 2021,
     poster: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&h=600&fit=crop",
+    backdrop: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&h=700&fit=crop",
     description: "During her family's move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits. Studio Ghibli's most beloved work.",
     cast: "Daveigh Chase, Suzanne Pleshette, Miyu Irino",
-    trailer: "https://www.youtube.com/watch?v=ByXuk9QqQkk",
+    trailerKey: "ByXuk9QqQkk",
     baseRating: 4.8,
-    votes: 20540
+    votes: 20540,
+    trending: true
   },
   {
     id: 7,
@@ -82,11 +94,13 @@ const MOVIES = [
     genre: "Horror",
     year: 2017,
     poster: "https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?w=400&h=600&fit=crop",
+    backdrop: "https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=1400&h=700&fit=crop",
     description: "A young African-American visits his white girlfriend's parents for the weekend, where his nightmare begins. Jordan Peele's incisive social horror debut is unmissable.",
     cast: "Daniel Kaluuya, Allison Williams, Bradley Whitford",
-    trailer: "https://www.youtube.com/watch?v=DzfpyUB60YY",
+    trailerKey: "DzfpyUB60YY",
     baseRating: 4.4,
-    votes: 11200
+    votes: 11200,
+    trending: false
   },
   {
     id: 8,
@@ -94,11 +108,13 @@ const MOVIES = [
     genre: "Comedy",
     year: 2019,
     poster: "https://images.unsplash.com/photo-1555116505-38ab61800975?w=400&h=600&fit=crop",
+    backdrop: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1400&h=700&fit=crop",
     description: "A writer encounters the owner of an aging European hotel between the wars, and gets mixed up in the theft of a priceless Renaissance painting. Wes Anderson's most exuberant film.",
     cast: "Ralph Fiennes, Tony Revolori, Saoirse Ronan",
-    trailer: "https://www.youtube.com/watch?v=1Fg5iWmQjwk",
+    trailerKey: "1Fg5iWmQjwk",
     baseRating: 4.5,
-    votes: 13780
+    votes: 13780,
+    trending: false
   },
   {
     id: 9,
@@ -106,11 +122,13 @@ const MOVIES = [
     genre: "Drama",
     year: 2024,
     poster: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=600&fit=crop",
-    description: "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb during World War II. Christopher Nolan's grandest, most ambitious work yet.",
+    backdrop: "https://images.unsplash.com/photo-1446776858070-70c3d5ed6758?w=1400&h=700&fit=crop",
+    description: "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb. Christopher Nolan's grandest, most ambitious work yet.",
     cast: "Cillian Murphy, Emily Blunt, Matt Damon",
-    trailer: "https://www.youtube.com/watch?v=uYPbbksJxIg",
+    trailerKey: "uYPbbksJxIg",
     baseRating: 4.7,
-    votes: 28600
+    votes: 28600,
+    trending: true
   },
   {
     id: 10,
@@ -118,11 +136,13 @@ const MOVIES = [
     genre: "Sci-Fi",
     year: 2018,
     poster: "https://images.unsplash.com/photo-1571019613576-2b22c76fd955?w=400&h=600&fit=crop",
-    description: "A young blade runner's discovery of a long-buried secret leads him to track down former blade runner Rick Deckard, who has been missing for thirty years. A visual poem of sci-fi cinema.",
+    backdrop: "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1400&h=700&fit=crop",
+    description: "A young blade runner's discovery of a long-buried secret leads him to track down former blade runner Rick Deckard. A visual poem of sci-fi cinema.",
     cast: "Ryan Gosling, Harrison Ford, Ana de Armas",
-    trailer: "https://www.youtube.com/watch?v=gCcx85zbxz4",
+    trailerKey: "gCcx85zbxz4",
     baseRating: 4.5,
-    votes: 16340
+    votes: 16340,
+    trending: false
   },
   {
     id: 11,
@@ -130,11 +150,13 @@ const MOVIES = [
     genre: "Thriller",
     year: 2019,
     poster: "https://images.unsplash.com/photo-1574169208507-84376144848b?w=400&h=600&fit=crop",
+    backdrop: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=1400&h=700&fit=crop",
     description: "A detective investigates the death of a patriarch of an eccentric, combative family. Rian Johnson's delightful whodunit subverts every expectation of the genre.",
     cast: "Daniel Craig, Chris Evans, Ana de Armas",
-    trailer: "https://www.youtube.com/watch?v=qGqiHJTsRkQ",
+    trailerKey: "qGqiHJTsRkQ",
     baseRating: 4.4,
-    votes: 14220
+    votes: 14220,
+    trending: false
   },
   {
     id: 12,
@@ -142,10 +164,12 @@ const MOVIES = [
     genre: "Sci-Fi",
     year: 2022,
     poster: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=600&fit=crop",
+    backdrop: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1400&h=700&fit=crop",
     description: "A middle-aged Chinese immigrant is swept up in an insane adventure in which she alone can save existence by exploring other universes. The most inventive film in years.",
     cast: "Michelle Yeoh, Stephanie Hsu, Ke Huy Quan",
-    trailer: "https://www.youtube.com/watch?v=wxN1T1uxQ2g",
+    trailerKey: "wxN1T1uxQ2g",
     baseRating: 4.8,
-    votes: 22900
+    votes: 22900,
+    trending: true
   }
 ];
