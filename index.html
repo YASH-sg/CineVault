@@ -74,6 +74,15 @@
     <div class="horizontal-scroll" id="topRatedScroll"></div>
   </section>
 
+  <!-- RECENTLY VIEWED -->
+  <section class="section-block hidden" id="recentlyViewedSection">
+    <div class="section-header">
+      <h2 class="section-title">🕐 Recently Viewed</h2>
+      <button class="section-clear-btn" id="clearRecentBtn">Clear</button>
+    </div>
+    <div class="horizontal-scroll" id="recentlyViewedScroll"></div>
+  </section>
+
   <!-- SEARCH & FILTER -->
   <section class="controls-bar" id="allMoviesAnchor">
     <div class="controls-inner">
@@ -107,6 +116,15 @@
           <option value="4">4★ & above</option>
           <option value="3">3★ & above</option>
           <option value="2">2★ & above</option>
+        </select>
+        <select id="sortFilter">
+          <option value="default">Sort: Default</option>
+          <option value="rating-desc">Rating: High → Low</option>
+          <option value="rating-asc">Rating: Low → High</option>
+          <option value="year-desc">Year: Newest First</option>
+          <option value="year-asc">Year: Oldest First</option>
+          <option value="title-asc">Title: A → Z</option>
+          <option value="title-desc">Title: Z → A</option>
         </select>
       </div>
     </div>
@@ -174,6 +192,8 @@
   <script src="js/watchlist.js"></script>
   <script src="js/trailer.js"></script>
   <script src="js/filter.js"></script>
+  <script src="js/recentlyViewed.js"></script>
+  <script src="js/moreLikeThis.js"></script>
   <script src="js/modal.js"></script>
   <script src="js/hero.js"></script>
   <script src="js/pagination.js"></script>

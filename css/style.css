@@ -1019,3 +1019,172 @@ body {
   .movie-grid { grid-template-columns: repeat(2, 1fr); }
   .hero-title { font-size: 2.2rem; }
 }
+
+/* =============================================
+   DAY 6 ADDITIONS
+============================================= */
+
+/* ---- Sort dropdown (already in filters, no extra style needed) ---- */
+
+/* ---- Section header with clear button ---- */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+
+.section-clear-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.section-clear-btn:hover {
+  color: var(--accent2);
+  border-color: var(--accent2);
+}
+
+/* ---- Mini card hover overlay (Recently Viewed) ---- */
+.mini-poster-wrap {
+  position: relative;
+  width: 140px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.mini-poster-wrap .mini-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  transition: transform 0.35s ease, border-color var(--transition);
+  display: block;
+}
+
+.mini-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.mini-play {
+  font-size: 1.6rem;
+  color: var(--accent);
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+}
+
+.mini-card:hover .mini-overlay { opacity: 1; }
+.mini-card:hover .mini-poster   { transform: scale(1.05); border-color: var(--accent); }
+
+/* ---- More Like This (inside modal) ---- */
+.more-like-this {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.mlt-label {
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+.mlt-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.75rem;
+}
+
+.mlt-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+.mlt-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.mlt-card img {
+  width: 100%;
+  aspect-ratio: 2/3;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.mlt-card:hover img { transform: scale(1.04); }
+
+.mlt-info {
+  padding: 0.5rem 0.6rem 0.6rem;
+}
+
+.mlt-title {
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.mlt-meta {
+  font-size: 0.68rem;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.mlt-rating {
+  font-size: 0.72rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ---- Sort active indicator ---- */
+#sortFilter:not([value="default"]) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---- Recently viewed section slide-in ---- */
+#recentlyViewedSection {
+  animation: sectionFadeIn 0.4s ease both;
+}
+
+@keyframes sectionFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Light theme fixes for new elements ---- */
+[data-theme="light"] .mlt-card {
+  background: rgba(0,0,0,0.03);
+}
+
+[data-theme="light"] .mlt-title { color: var(--text); }

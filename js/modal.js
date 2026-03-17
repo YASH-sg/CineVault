@@ -1,5 +1,5 @@
 // =============================================
-//  CINEVAULT — MODAL  (Day 3–4)
+//  CINEVAULT — MODAL  (Day 6 update)
 //  js/modal.js
 // =============================================
 
@@ -43,22 +43,39 @@ function openModal(movie) {
           ${saved ? '♥ In Watchlist' : '♡ Add to Watchlist'}
         </button>
       </div>
+
+      <div id="moreLikeThisContainer"></div>
     </div>
   `;
 
-  // Star widget
+  // Stars
   content.querySelector('#modalStarContainer').appendChild(buildModalStars(movie));
 
-  // Trailer button
+  // Trailer
   content.querySelector('#modalTrailerBtn').addEventListener('click', () => {
     closeModal();
     openTrailer(movie.trailerKey, movie.title);
   });
 
-  // Watchlist button
+  // Watchlist
   content.querySelector('#modalWatchlistBtn').addEventListener('click', () => {
     toggleWatchlist(movie.id);
+    const nowSaved = Storage.isInWatchlist(movie.id);
+    const btn = document.getElementById('modalWatchlistBtn');
+    if (btn) {
+      btn.textContent = nowSaved ? '♥ In Watchlist' : '♡ Add to Watchlist';
+      btn.classList.toggle('saved', nowSaved);
+    }
   });
+
+  // More Like This
+  const mltContainer = content.querySelector('#moreLikeThisContainer');
+  const mltBlock = buildMoreLikeThis(movie);
+  if (mltBlock) mltContainer.appendChild(mltBlock);
+
+  // Track in recently viewed
+  pushRecent(movie.id);
+  renderRecentlyViewed();
 
   overlay.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
