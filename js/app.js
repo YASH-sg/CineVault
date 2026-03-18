@@ -1,5 +1,5 @@
 // =============================================
-//  CINEVAULT — MAIN APP  (Day 3–4)
+//  CINEVAULT — MAIN APP  (TMDB-powered)
 //  js/app.js
 // =============================================
 
@@ -21,12 +21,15 @@ function buildSkeletons(count = 8) {
   }
 }
 
-// ---- Mini card (for Trending / Top Rated rows) ----
+// ---- Mini card (Trending / Top Rated / Recently Viewed rows) ----
 function buildMiniCard(movie) {
   const card = document.createElement('div');
   card.className = 'mini-card';
   card.innerHTML = `
-    <img class="mini-poster" src="${movie.poster}" alt="${movie.title}" loading="lazy" />
+    <div class="mini-poster-wrap">
+      <img class="mini-poster" src="${movie.poster}" alt="${movie.title}" loading="lazy" />
+      <div class="mini-overlay"><span class="mini-play">▶</span></div>
+    </div>
     <div class="mini-title">${movie.title}</div>
     <div class="mini-rating">${getAverageRating(movie).toFixed(1)}★</div>
   `;
@@ -55,14 +58,13 @@ function buildMovieCard(movie) {
     <div class="card-poster">
       <img src="${movie.poster}" alt="${movie.title}" loading="lazy" />
       <div class="card-overlay">
-        <button class="card-trailer-btn" data-key="${movie.trailerKey}" data-title="${movie.title}">▶ Trailer</button>
+        <button class="card-trailer-btn">▶ Trailer</button>
         <p class="overlay-desc">${movie.description}</p>
         <span class="overlay-hint">Click for details →</span>
       </div>
       <span class="card-genre-badge">${movie.genre}</span>
       <button class="card-watchlist-btn ${saved ? 'saved' : ''}"
-        title="${saved ? 'Remove from Watchlist' : 'Add to Watchlist'}"
-        data-wl-id="${movie.id}">
+        title="${saved ? 'Remove from Watchlist' : 'Add to Watchlist'}">
         ${saved ? '♥' : '♡'}
       </button>
     </div>
@@ -78,25 +80,24 @@ function buildMovieCard(movie) {
     </div>
   `;
 
-  // Stars
   card.querySelector('.card-stars-wrap').appendChild(buildCardStars(movie));
 
-  // Trailer button (stop propagation so modal doesn't also open)
   card.querySelector('.card-trailer-btn').addEventListener('click', (e) => {
     e.stopPropagation();
+    if (!movie.trailerKey) {
+      showToast('Trailer not available yet', 'error');
+      return;
+    }
     openTrailer(movie.trailerKey, movie.title);
   });
 
-  // Watchlist button
   card.querySelector('.card-watchlist-btn').addEventListener('click', (e) => {
     e.stopPropagation();
     toggleWatchlist(movie.id);
   });
 
-  // Open modal on card body click (not stars/buttons)
   card.addEventListener('click', (e) => {
-    const skip = ['INPUT', 'LABEL', 'BUTTON'];
-    if (skip.includes(e.target.tagName)) return;
+    if (['INPUT','LABEL','BUTTON'].includes(e.target.tagName)) return;
     openModal(movie);
   });
 
@@ -128,54 +129,72 @@ function renderMovies() {
 
   renderPagination(filtered);
   updateResultsLabel(filtered.length);
-
-  // Hide skeleton once grid is shown
   if (skeleton) skeleton.classList.add('hidden');
 }
 
 // ---- Loading screen ----
-function runLoadingScreen(onDone) {
+function runLoadingScreen(steps, onDone) {
   const fill   = document.getElementById('loaderFill');
   const text   = document.getElementById('loaderText');
   const screen = document.getElementById('loadingScreen');
-  const steps  = ['Fetching movies…', 'Building universe…', 'Almost there…', 'Lights, camera…'];
   let progress = 0;
   let step     = 0;
 
   const tick = setInterval(() => {
-    progress += Math.random() * 22 + 10;
-    if (progress > 100) progress = 100;
+    progress += Math.random() * 18 + 8;
+    if (progress > 95) progress = 95;
     if (fill) fill.style.width = progress + '%';
-    if (text && steps[step]) { text.textContent = steps[step++]; }
-    if (progress >= 100) {
-      clearInterval(tick);
-      setTimeout(() => {
-        screen.classList.add('fade-out');
-        setTimeout(onDone, 500);
-      }, 300);
-    }
-  }, 350);
+    if (text && steps[step]) text.textContent = steps[step++];
+    if (step >= steps.length) clearInterval(tick);
+  }, 400);
+
+  // Called externally when data is ready
+  window._finishLoader = () => {
+    clearInterval(tick);
+    if (fill) fill.style.width = '100%';
+    setTimeout(() => {
+      screen.classList.add('fade-out');
+      setTimeout(onDone, 500);
+    }, 300);
+  };
 }
 
 // ---- Bootstrap ----
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   buildSkeletons(8);
 
-  runLoadingScreen(() => {
-    // Trending row: movies flagged as trending
-    const trending = MOVIES.filter(m => m.trending);
-    renderHorizontalRow('trendingScroll', trending);
+  runLoadingScreen(
+    ['Connecting to TMDB…', 'Fetching popular movies…', 'Loading posters…', 'Almost ready…'],
+    () => {
+      // Trending row
+      const trending = MOVIES.filter(m => m.trending).slice(0, 10);
+      renderHorizontalRow('trendingScroll', trending);
 
-    // Top Rated row: sorted by average rating desc
-    const topRated = [...MOVIES]
-      .sort((a, b) => getAverageRating(b) - getAverageRating(a))
-      .slice(0, 8);
-    renderHorizontalRow('topRatedScroll', topRated);
+      // Top Rated row
+      const topRated = [...MOVIES]
+        .sort((a, b) => getAverageRating(b) - getAverageRating(a))
+        .slice(0, 10);
+      renderHorizontalRow('topRatedScroll', topRated);
 
-    // Hero
-    initHero();
+      // Hero
+      initHero();
 
-    // Main grid
-    renderMovies();
-  });
+      // Grid
+      renderMovies();
+    }
+  );
+
+  // Fetch from TMDB
+  const tmdbMovies = await fetchPopularMovies(1);
+
+  if (tmdbMovies && tmdbMovies.length > 0) {
+    MOVIES = tmdbMovies;
+    showToast(`Loaded ${MOVIES.length} movies from TMDB 🎬`, 'success', 3000);
+  } else {
+    // Fallback to static data
+    MOVIES = STATIC_MOVIES;
+    showToast('Using offline movie data', 'info', 3000);
+  }
+
+  window._finishLoader();
 });

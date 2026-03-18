@@ -1,15 +1,16 @@
 // =============================================
-//  CINEVAULT — MODAL  (Day 6 update)
+//  CINEVAULT — MODAL  (TMDB-enriched)
 //  js/modal.js
 // =============================================
 
-function openModal(movie) {
+async function openModal(movie) {
   const overlay = document.getElementById('modalOverlay');
   const content = document.getElementById('modalContent');
   const avg     = getAverageRating(movie);
   const votes   = getVoteCount(movie);
   const saved   = Storage.isInWatchlist(movie.id);
 
+  // Show modal immediately with what we have
   content.innerHTML = `
     <div class="modal-hero">
       <img class="modal-poster" src="${movie.poster}" alt="${movie.title}" loading="lazy" />
@@ -36,10 +37,11 @@ function openModal(movie) {
       </div>
 
       <div class="modal-action-row">
-        <button class="modal-trailer-btn" id="modalTrailerBtn">▶ Watch Trailer</button>
+        <button class="modal-trailer-btn" id="modalTrailerBtn">
+          ${movie.trailerKey ? '▶ Watch Trailer' : '⏳ Loading Trailer…'}
+        </button>
         <button class="modal-watchlist-btn ${saved ? 'saved' : ''}"
-          id="modalWatchlistBtn"
-          data-movie-id="${movie.id}">
+          id="modalWatchlistBtn" data-movie-id="${movie.id}">
           ${saved ? '♥ In Watchlist' : '♡ Add to Watchlist'}
         </button>
       </div>
@@ -51,12 +53,6 @@ function openModal(movie) {
   // Stars
   content.querySelector('#modalStarContainer').appendChild(buildModalStars(movie));
 
-  // Trailer
-  content.querySelector('#modalTrailerBtn').addEventListener('click', () => {
-    closeModal();
-    openTrailer(movie.trailerKey, movie.title);
-  });
-
   // Watchlist
   content.querySelector('#modalWatchlistBtn').addEventListener('click', () => {
     toggleWatchlist(movie.id);
@@ -65,6 +61,17 @@ function openModal(movie) {
     if (btn) {
       btn.textContent = nowSaved ? '♥ In Watchlist' : '♡ Add to Watchlist';
       btn.classList.toggle('saved', nowSaved);
+    }
+  });
+
+  // Trailer button (wire it; key may arrive after enrichment)
+  const trailerBtn = content.querySelector('#modalTrailerBtn');
+  trailerBtn.addEventListener('click', () => {
+    if (movie.trailerKey) {
+      closeModal();
+      openTrailer(movie.trailerKey, movie.title);
+    } else {
+      showToast('Trailer is still loading, try again shortly…', 'info');
     }
   });
 
@@ -79,6 +86,15 @@ function openModal(movie) {
 
   overlay.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
+
+  // Enrich with TMDB (trailer + cast) if needed — async, non-blocking
+  if (movie.tmdbId && (movie.trailerKey === null || movie.cast === 'Loading…')) {
+    await enrichMovie(movie);
+    // Patch trailer button
+    if (trailerBtn) {
+      trailerBtn.textContent = '▶ Watch Trailer';
+    }
+  }
 }
 
 function closeModal() {
